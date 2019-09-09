@@ -1,0 +1,146 @@
+body {
+  background-color: lightgray;
+}
+
+.drum {
+  height: 120px;
+  width: 120px;
+  background-color: crimson;
+  border-radius: 50%;
+  border: 1px solid black;
+  display: inline-block;
+  text-align: center;
+  margin: 5px;
+  transition: border-color .1s;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+
+  @media only screen and (max-width: 850px) {
+    height: 80px;
+    width: 80px;
+    margin: 2px;
+  }
+}
+
+.drum-click {
+  border-color: white;
+}
+
+.drum-machine-container {
+  width: 600px;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  user-select: none;
+  text-align: center;
+
+  &__touch {
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.drum-text-container {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.drum-name {
+  font-size: 15px;
+
+  @media only screen and (max-width: 850px) {
+    font-size: 13px;
+  }
+}
+
+.drum-key {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+input[type=checkbox].toggle-switch {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  width: 6em;
+  height: 3em;
+  border-radius: 3em;
+  background-color: crimson;
+  outline: 0;
+  cursor: pointer;
+  transition: background-color 0.09s ease-in-out;
+  position: relative;
+  margin: 10px;
+  -webkit-tap-highlight-color: transparent;
+
+  &::after {
+    content: '';
+    width: 3em;
+    height: 3em;
+    background-color: white;
+    border-radius: 3em;
+    position: absolute;
+    transform: scale(0.7);
+    left: 0;
+    transition: left 0.09s ease-in-out;
+    box-shadow: 0 0.1em rgba(0, 0, 0, 0.5);
+  }
+
+  &:checked::after {
+    left: 3em;
+  }
+}
+
+.sound-selector-label {
+  position: relative;
+  display: inline-block;
+  top: -20px;
+  font-size: 20px;
+
+  &::after {
+    display: block;
+    content: attr(title);
+    font-weight: bold;
+    height: 1px;
+    color: transparent;
+    overflow: hidden;
+    visibility: hidden;
+  }
+
+  &__selected {
+    font-weight: bold;
+  }
+
+  @media only screen and (max-width: 850px) {
+    font-size: 17px;
+  }
+}
+
+.message-container {
+  text-align: center;
+  margin: 20px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+button {
+  height: 40px;
+  width: 100px;
+  border-radius: 5px;
+  background-color: crimson;
+  font-weight: bold;
+  font-size: 13px;
+
+  &:focus {
+    outline:0;
+  }
+
+  &:disabled {
+    background-color: lightcoral;
+  }
+
+  @media only screen and (max-width: 850px) {
+    height: 30px;
+    width: 80px;
+  }
+}
