@@ -13,20 +13,18 @@ class DrumContainer extends React.Component {
 
         return (
             <div className='drum-container'>
-                {
-                    DrumOrder.map((item, i) => {
-                        return <div className='drum-line' key={i}>
-                            {Object.keys(this.getDrumsByOrder(item)).map((key, i) => {
-                                return <div className='drum' key={i} id={key} onClick={handleClick}>
-                                    <div className='drum-text-container'>
-                                        <div className='drum-name'>{key.toUpperCase()}</div>
-                                        {!isTouchDevice && <div className='drum-key'>{String.fromCharCode(activeSounds[key].keyCode)}</div>}
-                                    </div>
+                {DrumOrder.map((item, i) => {
+                    return <div className='drum-line' key={i}>
+                        {Object.keys(this.getDrumsByOrder(item)).map((key, i) => {
+                            return <div className='drum' key={i} id={key} onClick={handleClick}>
+                                <div className='drum-text-container'>
+                                    <div className='drum-name'>{key.toUpperCase()}</div>
+                                    {!isTouchDevice && <div className='drum-key'>{String.fromCharCode(activeSounds[key].keyCode)}</div>}
                                 </div>
-                            })}
-                        </div>
-                    })
-                }
+                            </div>
+                        })}
+                    </div>
+                })}
             </div>
         );
     }

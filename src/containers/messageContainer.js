@@ -1,5 +1,5 @@
 import React from 'react';
-import MessageTexts from '../constants/messageTexts'
+import MessageTexts from '../constants/messageTexts';
 
 class MessageContainer extends React.Component {
     render() {
@@ -16,7 +16,7 @@ class MessageContainer extends React.Component {
 
         return (
             <div className='message-container'>
-                {message && <div>{message}</div>}
+                {message && <div className='message-text'>{message}</div>}
             </div>
         );
     }

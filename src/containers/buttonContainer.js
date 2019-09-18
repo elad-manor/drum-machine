@@ -1,4 +1,5 @@
 import React from 'react';
+import ButtonLabels from '../constants/buttonLabels';
 
 class ButtonContainer extends React.Component {
     render() {
@@ -6,9 +7,9 @@ class ButtonContainer extends React.Component {
 
         return (
             <div className='button-container'>
-                {!isTouchDevice && <button onClick={handleCustomize} disabled={playMode || recordMode}>{editMode ? 'Cancel' : 'Customize'}</button>}
-                <button onClick={handleRecord} disabled={playMode || editMode}>{recordMode ? '■' : '●'}</button>
-                <button onClick={handlePlay} disabled={disablePlay}>{playMode ? '■' : '▶'}</button>
+                {!isTouchDevice && <button className='customize-button' onClick={handleCustomize} disabled={playMode || recordMode}>{editMode ? ButtonLabels.cancel : ButtonLabels.customize}</button>}
+                <button className='record-button' onClick={handleRecord} disabled={playMode || editMode}>{recordMode ? ButtonLabels.stop : ButtonLabels.record}</button>
+                <button className='play-button' onClick={handlePlay} disabled={disablePlay}>{playMode ? ButtonLabels.stop : ButtonLabels.play}</button>
             </div>
         );
     }
