@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from "classnames";
+import { connect } from 'react-redux';
 
 class SoundSelectorContainer extends React.Component {
     render() {
@@ -15,4 +16,19 @@ class SoundSelectorContainer extends React.Component {
     }
 }
 
-export default SoundSelectorContainer;
+const mapStateToProps = (state) => ({
+    isElectronic: state.isElectronic
+});
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        handleOptionChange: (e) => {
+            dispatch({
+                type: 'CHANGE-SAMPLES',
+                isElectronic: e.currentTarget.checked
+            });
+        }
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SoundSelectorContainer);

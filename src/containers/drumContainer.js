@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import DrumOrder from '../constants/drumOrder';
 
 class DrumContainer extends React.Component {
@@ -41,6 +42,27 @@ class DrumContainer extends React.Component {
 
         return drums;
     }
+
+    // handleClick(e) {
+    //     const {customizeMode, assignKeyMode, existingKeySelected, recordMode} = this.state;
+    //
+    //     if (customizeMode) {
+    //         this.setState({
+    //             customizeMode: false,
+    //             assignKeyMode: true,
+    //             selectedDrum: e.currentTarget.id
+    //         });
+    //     } else if (!assignKeyMode || !existingKeySelected) {
+    //         let drum = e.currentTarget.id;
+    //         this.playSound(drum);
+    //         recordMode && this.recordSound(drum);
+    //     }
+    // }
 }
 
-export default DrumContainer;
+const mapStateToProps = (state) => ({
+    activeSounds: state.activeSounds,
+    isTouchDevice: state.isTouchDevice
+});
+
+export default connect(mapStateToProps)(DrumContainer);

@@ -1,9 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import ButtonLabels from '../constants/buttonLabels';
 
 class ButtonContainer extends React.Component {
     render() {
-        const {isTouchDevice, handleCustomize, handleRecord, handlePlay, playMode, recordMode, editMode, disablePlay} = this.props;
+        const {isTouchDevice, handleCustomize, handleRecord, handlePlay, playMode, recordMode, customizeMode, assignKeyMode, existingKeySelected, isRecorded} = this.props;
+        const editMode = customizeMode || assignKeyMode || existingKeySelected;
+        const disablePlay = isRecorded || recordMode || editMode;
 
         return (
             <div className='button-container'>
@@ -15,4 +18,23 @@ class ButtonContainer extends React.Component {
     }
 }
 
-export default ButtonContainer;
+const mapStateToProps = (state) => ({
+    customizeMode: state.customizeMode,
+    assignKeyMode: state.assignKeyMode,
+    existingKeySelected: state.existingKeySelected,
+    isTouchDevice: state.isTouchDevice,
+    playMode: state.playMode,
+    recordMode: state.recordMode,
+});
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        handleCustomize: () => {
+            dispatch({
+                type: 'HANDLE-CUSTOMIZE'
+            });
+        }
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ButtonContainer);

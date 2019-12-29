@@ -9,13 +9,13 @@ import ride from '../samples/acoustic/acoustic-ride.mp3';
 import snare from '../samples/acoustic/acoustic-snare.mp3';
 
 export default {
-    crash1,
-    crash2,
-    floortom,
-    hightom,
-    hihat,
-    kick,
-    midtom,
-    ride,
-    snare
+  crash1,
+  crash2,
+  floortom,
+  hightom,
+  hihat,
+  kick,
+  midtom,
+  ride,
+  snare
 };

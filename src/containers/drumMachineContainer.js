@@ -1,11 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import DrumContainer from './drumContainer';
 import SoundSelectorContainer from './soundSelectorContainer';
 import MessageContainer from './messageContainer';
 import ButtonContainer from './buttonContainer';
-import AcousticSamples from '../constants/acousticSamples';
-import ElectronicSamples from '../constants/electronicSamples';
-import DefaultKeyCodes from '../constants/defaultKeyCodes';
 import '../css/drumMachineContainer.scss';
 import classNames from "classnames";
 
@@ -14,13 +12,11 @@ class DrumMachineContainer extends React.Component {
         super(props);
 
         this.state = {
-            customizeMode: false,
-            assignKeyMode: false,
-            existingKeySelected: false,
-            recordMode: false,
-            playMode: false,
-            activeSounds: this.createSoundsObject(AcousticSamples),
-            isElectronic: false,
+            // customizeMode: false,
+            // assignKeyMode: false,
+            // existingKeySelected: false,
+            // recordMode: false,
+            // playMode: false,
             recordedSounds: [],
             recordStartTime: 0
         };
@@ -30,9 +26,6 @@ class DrumMachineContainer extends React.Component {
         this.handleKeyUp = this.handleKeyUp.bind(this);
         this.handleCustomize = this.handleCustomize.bind(this);
         this.findDrumByKey = this.findDrumByKey.bind(this);
-        this.createSoundsObject = this.createSoundsObject.bind(this);
-        this.handleOptionChange = this.handleOptionChange.bind(this);
-        this.loadSounds = this.loadSounds.bind(this);
         this.handleRecord = this.handleRecord.bind(this);
         this.recordSound = this.recordSound.bind(this);
         this.handlePlay = this.handlePlay.bind(this);
@@ -40,28 +33,18 @@ class DrumMachineContainer extends React.Component {
     }
 
     render() {
-        const {customizeMode, assignKeyMode, activeSounds, existingKeySelected, recordMode, playMode, recordedSounds, isElectronic} = this.state;
-        const editMode = customizeMode || assignKeyMode || existingKeySelected;
-        const isTouchDevice = "ontouchstart" in document.documentElement;
+        const {customizeMode, assignKeyMode, existingKeySelected, recordedSounds} = this.state;
+        const {isTouchDevice} = this.props;
 
         return (
             <div className={classNames('drum-machine-container', {'drum-machine-container__touch': isTouchDevice})}>
                 <DrumContainer
-                    activeSounds={activeSounds}
-                    isTouchDevice={isTouchDevice}
                     handleClick={this.handleClick}/>
-                <SoundSelectorContainer
-                    isElectronic={isElectronic}
-                    handleOptionChange={this.handleOptionChange}/>
+                <SoundSelectorContainer />
                 <ButtonContainer
-                    isTouchDevice={isTouchDevice}
-                    handleCustomize={this.handleCustomize}
                     handleRecord={this.handleRecord}
                     handlePlay={this.handlePlay}
-                    playMode={playMode}
-                    recordMode={recordMode}
-                    editMode={editMode}
-                    disablePlay={!recordedSounds.length || recordMode || editMode}/>
+                    isRecorded={!recordedSounds.length}/>
                 <MessageContainer
                     customizeMode={customizeMode}
                     assignKeyMode={assignKeyMode}
@@ -70,16 +53,12 @@ class DrumMachineContainer extends React.Component {
         );
     }
 
-    componentWillMount() {
-        this.loadSounds();
-    }
-
     componentDidMount() {
         window.addEventListener('keyup', this.handleKeyUp);
     }
 
     playSound(drum) {
-        const {activeSounds} = this.state;
+        const {activeSounds} = this.props;
 
         document.getElementById(drum).classList.add('drum-click');
         setTimeout(() => {
@@ -105,7 +84,8 @@ class DrumMachineContainer extends React.Component {
     }
 
     handleKeyUp(e) {
-        const {customizeMode, assignKeyMode, activeSounds, selectedDrum, existingKeySelected, recordMode} = this.state;
+        const {customizeMode, assignKeyMode, selectedDrum, existingKeySelected, recordMode} = this.state;
+        const {activeSounds} = this.props;
 
         if (assignKeyMode || existingKeySelected) {
             if ((e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 65 && e.keyCode <= 90)) {
@@ -160,42 +140,6 @@ class DrumMachineContainer extends React.Component {
         }
 
         return false;
-    }
-
-    createSoundsObject(samples) {
-        let selectedSounds = {};
-
-        for (let key in samples) {
-            if (samples.hasOwnProperty(key)) {
-                selectedSounds[key] = {
-                    sound: samples[key],
-                    keyCode: this.state ? this.state.activeSounds[key].keyCode : DefaultKeyCodes[key]
-                };
-            }
-        }
-
-        return selectedSounds;
-    }
-
-    handleOptionChange(e) {
-        this.setState({
-            isElectronic: e.currentTarget.checked,
-            activeSounds: this.createSoundsObject(e.currentTarget.checked ? ElectronicSamples : AcousticSamples)
-        });
-    }
-
-    loadSounds() {
-        for (let key in AcousticSamples) {
-            if (AcousticSamples.hasOwnProperty(key)) {
-                new Audio(AcousticSamples[key]).load();
-            }
-        }
-
-        for (let key in ElectronicSamples) {
-            if (ElectronicSamples.hasOwnProperty(key)) {
-                new Audio(ElectronicSamples[key]).load();
-            }
-        }
     }
 
     handleRecord() {
@@ -263,4 +207,16 @@ class DrumMachineContainer extends React.Component {
     }
 }
 
-export default DrumMachineContainer;
+const mapDispatchToProps = (dispatch) => {
+    return {
+
+    };
+};
+
+const mapStateToProps = (state) => ({
+    activeSounds: state.activeSounds,
+    isElectronic: state.isElectronic,
+    isTouchDevice: state.isTouchDevice
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(DrumMachineContainer);
